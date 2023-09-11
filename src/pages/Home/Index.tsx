@@ -39,8 +39,8 @@ const Index = () => {
         <p className="p-5 lg:py-10">
           View the progress of automation across different industries.
         </p>
-        <div className=" lg:max-w-lg mx-auto ">
-          <ul className=" flex flex-col lg:flex-row text-lg gap-2  lg:text-xl font-medium text-center  lg:overflow-x-auto font-raleway ">
+        <div className="max-w-md lg:max-w-lg mx-auto ">
+          <ul className=" flex justify-center  lg:flex-row text-lg gap-2  lg:text-xl font-medium text-center  lg:overflow-x-auto font-raleway ">
             {industries.map((indus: any, index: number) => (
               <li>
                 <button
