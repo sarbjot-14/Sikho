@@ -136,10 +136,10 @@ const Graphs = ({ industryData }: any) => {
               const span = '<span style="' + style + '">' + body + '</span>';
               innerHtml += '<tr><td >' + span + '</td></tr>';
             });
-            innerHtml +=
-              '<tr><td style="font-size:15px;">' +
-              'Click for more info' +
-              '</td></tr>';
+            // innerHtml +=
+            //   '<tr><td style="font-size:15px;">' +
+            //   'Click for more info' +
+            //   '</td></tr>';
             innerHtml += '</tbody>';
 
             let tableRoot = tooltipEl.querySelector('table');
@@ -267,7 +267,7 @@ const Graphs = ({ industryData }: any) => {
           </button>
         </li>
       </ul>
-      <div className="flex justify-center m-10 gap-10">
+      {/* <div className="flex justify-center m-10 gap-10">
         <p className="w-2/3 ">
           Some data points are estimations due to incomplete data sources. Help
           build our dataset by making a submission
@@ -275,7 +275,7 @@ const Graphs = ({ industryData }: any) => {
         <Button className="max-h-16" color="primary" variant="outlined">
           Submit
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };
