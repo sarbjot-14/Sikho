@@ -12,11 +12,8 @@ import {
   ScaleOptionsByType,
 } from 'chart.js';
 import { Line, getElementAtEvent } from 'react-chartjs-2';
-import {
-  RideHailingTripDataSets,
-  RideHailingCostDataSets,
-  RideHailingLabels,
-} from '../../data/ride_hailing';
+import { Labels } from '../../data/ride_hailing';
+
 import { useState } from 'react';
 import { namedColor, transparentize } from '../../utils/GraphUtils';
 import { NumberFormat } from '../../utils';
@@ -38,8 +35,9 @@ enum GraphMode {
   REVENUE_SHARE = 'REVENUE_SHARE5',
 }
 
-const Graphs = () => {
+const Graphs = ({ industryData }: any) => {
   const [currentGraphMode, setCurrentGraphMode] = useState(GraphMode.COST);
+
   const chartRef = useRef();
   const options = {
     elements: {
@@ -70,10 +68,10 @@ const Graphs = () => {
         display: true,
         text:
           currentGraphMode === GraphMode.UNITS
-            ? 'Ride Hailing Trips'
+            ? industryData.unitTitle
             : currentGraphMode === GraphMode.COST
-            ? 'Average Cost of Trip'
-            : 'Estimated Sales Revenue',
+            ? industryData.costTitle
+            : industryData.salesTitle,
       },
 
       tooltip: {
@@ -171,20 +169,20 @@ const Graphs = () => {
   const getGraphData = () => {
     if (currentGraphMode === GraphMode.UNITS) {
       return {
-        labels: RideHailingLabels,
-        datasets: RideHailingTripDataSets,
+        labels: Labels,
+        datasets: industryData.unitData,
       };
     } else if (currentGraphMode === GraphMode.COST) {
       return {
-        labels: RideHailingLabels,
-        datasets: RideHailingCostDataSets,
+        labels: Labels,
+        datasets: industryData.costData,
       };
     } else if (currentGraphMode === GraphMode.REVENUE_SHARE) {
       const revenueShareDataSets: any = [];
-      let revenueShareDataSet: any = [];
-      for (let k = 0; k < RideHailingTripDataSets.length; k++) {
-        let unitsArray = RideHailingTripDataSets[k].data;
-        let costsArray = RideHailingCostDataSets[k].data;
+      // let revenueShareDataSet: any = [];
+      for (let k = 0; k < industryData.unitData.length; k++) {
+        let unitsArray = industryData.unitData[k].data;
+        let costsArray = industryData.costData[k].data;
 
         let revenueArray: any = unitsArray.map(function (
           unitNumber: any,
@@ -199,18 +197,18 @@ const Graphs = () => {
 
         const dsColor = namedColor(k);
         revenueShareDataSets.push({
-          label: RideHailingTripDataSets[k].label,
+          label: industryData.unitData[k].label,
           data: revenueArray,
           backgroundColor: transparentize(dsColor, 0.5),
           borderColor: dsColor,
         });
       }
       console.log({
-        labels: RideHailingLabels,
+        labels: Labels,
         datasets: revenueShareDataSets,
       });
       return {
-        labels: RideHailingLabels,
+        labels: Labels,
         datasets: revenueShareDataSets,
       };
     }
@@ -221,19 +219,10 @@ const Graphs = () => {
   const data = getGraphData();
 
   return (
-    <div className="p-20 flex flex-col items-center">
+    <div className="lg:px-10 lg:py-5 lg:my-10 flex flex-col items-center bg-gray-100 rounded-xl">
       <Line ref={chartRef} options={options} data={data!} onClick={onClick} />
-      <div className="flex justify-center m-10 gap-10">
-        <p className="w-2/3 ">
-          Some data are estimations due to incomplete data sources. Help build
-          our dataset by making a submission
-        </p>
-        <Button color="primary" variant="outlined">
-          Submit
-        </Button>
-      </div>
 
-      <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+      <ul className="flex flex-col lg:flex-row text-sm font-medium text-center text-gray-500 dark:text-gray-400">
         <li className="mr-2">
           <button
             onClick={() => {
@@ -246,7 +235,7 @@ const Graphs = () => {
             }`}
             aria-current="page"
           >
-            number of rides
+            {industryData.unitTitle}
           </button>
         </li>
         <li className="mr-2">
@@ -260,7 +249,7 @@ const Graphs = () => {
                 : 'rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white'
             }`}
           >
-            cost per ride
+            {industryData.costTitle}
           </button>
         </li>
         <li className="mr-2">
@@ -274,10 +263,19 @@ const Graphs = () => {
                 : 'rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white'
             }`}
           >
-            sales revenue
+            {industryData.salesTitle}
           </button>
         </li>
       </ul>
+      <div className="flex justify-center m-10 gap-10">
+        <p className="w-2/3 ">
+          Some data points are estimations due to incomplete data sources. Help
+          build our dataset by making a submission
+        </p>
+        <Button className="max-h-16" color="primary" variant="outlined">
+          Submit
+        </Button>
+      </div>
     </div>
   );
 };
