@@ -36,7 +36,7 @@ enum GraphMode {
 }
 
 const Graphs = ({ industryData }: any) => {
-  const [currentGraphMode, setCurrentGraphMode] = useState(GraphMode.COST);
+  const [currentGraphMode, setCurrentGraphMode] = useState(GraphMode.UNITS);
 
   const chartRef = useRef();
   const options = {
