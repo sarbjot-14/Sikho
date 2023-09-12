@@ -10,7 +10,7 @@ const Footer = () => {
           className="hover:underline"
           target="_blank"
         >
-          Sikho.com
+          Sikho
         </a>
         . All rights reserved.
       </p>
