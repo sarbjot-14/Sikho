@@ -4,14 +4,17 @@ import { getArticles, mockData } from '../../utils/newsAPI';
 const CompanyProfile = ({ companyProfiles }: any) => {
   const [currentProfile, setCurrentProfile] = useState(0);
   const [articles, setArticles] = useState<any>([]);
+  const makeCall = async () => {
+    return await getArticles(companyProfiles.unitData[currentProfile]?.label);
+  };
   useEffect(() => {
     setCurrentProfile(0);
+    makeCall().then((articleData: any) => {
+      setArticles(articleData.data);
+    });
   }, [companyProfiles]);
 
   useEffect(() => {
-    const makeCall = async () => {
-      return await getArticles(companyProfiles.unitData[currentProfile]?.label);
-    };
     makeCall().then((articleData: any) => {
       setArticles(articleData.data);
     });
