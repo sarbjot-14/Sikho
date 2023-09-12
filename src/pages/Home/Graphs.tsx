@@ -41,8 +41,8 @@ const Graphs = ({ industryData }: any) => {
   const chartRef = useRef();
   const options = {
     responsive: true,
-    maintainAspectRatio: true,
-    aspectRatio: 2,
+    maintainAspectRatio: false,
+    aspectRatio: 10,
     elements: {
       point: {
         radius: 10,
@@ -222,7 +222,7 @@ const Graphs = ({ industryData }: any) => {
 
   return (
     <div className="lg:px-10 lg:py-5 my-10 flex flex-col items-center bg-gray-100 rounded-xl">
-      <div className="relative h-[230px] lg:min-h-[500px] w-full">
+      <div className="relative h-[400px] lg:min-h-[500px] w-full">
         <Line ref={chartRef} options={options} data={data!} onClick={onClick} />
       </div>
 

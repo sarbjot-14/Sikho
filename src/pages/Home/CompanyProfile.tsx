@@ -16,13 +16,10 @@ const CompanyProfile = ({ companyProfiles }: any) => {
       setArticles(articleData.data);
     });
   }, [currentProfile]);
-  console.log(
-    'company profiles are ',
-    companyProfiles.unitData[currentProfile]?.videoLink,
-  );
+
   return (
     <div className="flex  flex-col items-center mt-10 ">
-      <div className="max-w-sm lg:max-w-xl mx-auto ">
+      <div className="max-w-[350px] lg:max-w-xl mx-auto ">
         <ul className="flex  text-sm font-medium text-center text-gray-500  overflow-x-auto no-scrollbar ">
           {companyProfiles.unitData.map((profile: any, index: number) => (
             <li className="mr-2">
