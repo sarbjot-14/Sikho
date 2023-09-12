@@ -40,6 +40,9 @@ const Graphs = ({ industryData }: any) => {
 
   const chartRef = useRef();
   const options = {
+    responsive: true,
+    maintainAspectRatio: true,
+    aspectRatio: 2,
     elements: {
       point: {
         radius: 10,
@@ -58,7 +61,6 @@ const Graphs = ({ industryData }: any) => {
         },
       },
     },
-    responsive: true,
 
     plugins: {
       legend: {
@@ -219,8 +221,10 @@ const Graphs = ({ industryData }: any) => {
   const data = getGraphData();
 
   return (
-    <div className="lg:px-10 lg:py-5 lg:my-10 flex flex-col items-center bg-gray-100 rounded-xl">
-      <Line ref={chartRef} options={options} data={data!} onClick={onClick} />
+    <div className="lg:px-10 lg:py-5 my-10 flex flex-col items-center bg-gray-100 rounded-xl">
+      <div className="relative h-[400px] w-full">
+        <Line ref={chartRef} options={options} data={data!} onClick={onClick} />
+      </div>
 
       <ul className="flex flex-col lg:flex-row text-sm font-medium text-center text-gray-500 dark:text-gray-400">
         <li className="mr-2">

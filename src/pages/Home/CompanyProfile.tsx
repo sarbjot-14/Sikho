@@ -56,8 +56,8 @@ const CompanyProfile = ({ companyProfiles }: any) => {
           {articles?.map((article: any) => {
             return (
               <a href={article.url} target="_blank">
-                <div className="flex p-8">
-                  <img className="w-[40%]" src={article.image_url}></img>
+                <div className="flex flex-col lg:flex-row p-8">
+                  <img className="p-2 lg:w-[40%]" src={article.image_url}></img>
                   <div className="px-2">
                     <h2 className="text-primary ">{article.title} </h2>{' '}
                     <p>{article.snippet}</p>
