@@ -221,8 +221,8 @@ const Graphs = ({ industryData }: any) => {
   const data = getGraphData();
 
   return (
-    <div className="lg:px-10 lg:py-5 my-10 flex flex-col items-center bg-gray-100 rounded-xl">
-      <div className="relative h-[400px] lg:min-h-[500px] w-full">
+    <div className="lg:px-10 lg:py-5 my-5 flex flex-col items-center bg-gray-100 rounded-xl">
+      <div className="relative h-[370px] lg:min-h-[500px] w-full">
         <Line ref={chartRef} options={options} data={data!} onClick={onClick} />
       </div>
 
