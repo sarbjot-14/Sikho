@@ -1,8 +1,11 @@
-# Youtube Clone App
+# Sikho frontend
 
 Web App to show progress of automation across different industries.
 
 Demo: https://sikho.vercel.app/
+
+## Backend:
+https://github.com/sarbjot-14/sikho-backend
 
 ## Tech Stack
 
@@ -14,7 +17,7 @@ Demo: https://sikho.vercel.app/
   - Used breakpoints to make design reactive
 - **News** :
   - thenewsapi.com
-
+  
 ## Available Scripts
 
 1. Clone repo
