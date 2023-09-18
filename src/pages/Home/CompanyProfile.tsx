@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { getArticles, mockData } from '../../utils/newsAPI';
+import { getArticles, mockData } from '../../services/newsAPI';
+import { getCompanies, getIndustries } from '../../services/sikhoAPI';
 
 const CompanyProfile = ({ companyProfiles }: any) => {
+  console.log('company profiles arerree ', companyProfiles);
   const [currentProfile, setCurrentProfile] = useState(0);
   const [articles, setArticles] = useState<any>([]);
   const makeCall = async () => {
-    return await getArticles(companyProfiles.unitData[currentProfile]?.label);
+    return await getArticles(companyProfiles?.companies[currentProfile]?.name);
   };
+
   useEffect(() => {
     setCurrentProfile(0);
     makeCall().then((articleData: any) => {
@@ -24,7 +27,7 @@ const CompanyProfile = ({ companyProfiles }: any) => {
     <div className="flex  flex-col items-center mt-10 ">
       <div className="max-w-[350px] lg:max-w-xl mx-auto ">
         <ul className="flex  text-sm font-medium text-center text-gray-500  overflow-x-auto no-scrollbar ">
-          {companyProfiles.unitData.map((profile: any, index: number) => (
+          {companyProfiles?.companies.map((profile: any, index: number) => (
             <li className="mr-2">
               <button
                 onClick={() => setCurrentProfile(index)}
@@ -36,10 +39,10 @@ const CompanyProfile = ({ companyProfiles }: any) => {
               >
                 <img
                   className="w-12 h-12 mb-3 rounded-full shadow-lg"
-                  src={profile.imageLink}
+                  src={profile.image_link}
                   alt={profile.label}
                 />
-                <h3 className="truncate">{profile.label}</h3>
+                <h3 className="truncate">{profile.name}</h3>
               </button>
             </li>
           ))}
@@ -50,7 +53,7 @@ const CompanyProfile = ({ companyProfiles }: any) => {
           title="Sikho Automation"
           className=" mx-auto min-w-full min-h-[250px] lg:min-h-[500px]"
           allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          src={`${companyProfiles.unitData[currentProfile]?.videoLink}  `}
+          src={`${companyProfiles?.companies[currentProfile]?.video_link}  `}
         ></iframe>
         <div className="m-5">
           {articles?.map((article: any) => {

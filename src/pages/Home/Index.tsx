@@ -1,38 +1,97 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Graphs from './Graphs';
 import Layout from '../../components/Layout';
-import {
-  RideHailingTripDataSets,
-  RideHailingCostDataSets,
-  Labels,
-} from '../../data/ride_hailing';
-import {
-  BeverageServiceCostDataSets,
-  BeverageServiceLocationDataSets,
-} from '../../data/beverage_service';
+
 import CompanyProfile from './CompanyProfile';
+import { getCompanies, getIndustries } from '../../services/sikhoAPI';
+import { industryTypes } from '../../data/constants';
 
 const Index = () => {
   const [industry, setIndustry] = useState(0);
-  const industries = [
-    {
-      name: 'Ride Hailing',
-      unitData: RideHailingTripDataSets,
-      costData: RideHailingCostDataSets,
-      unitTitle: 'Number of Trips',
-      costTitle: 'Average Cost per Trip',
-      salesTitle: 'Estimated Sales Revenue',
-    },
-    {
-      name: 'Beverage Service',
-      unitData: BeverageServiceLocationDataSets,
-      costData: BeverageServiceCostDataSets,
-      unitTitle: 'Number of Locations',
-      costTitle: 'Average Revenue per Location',
-      salesTitle: 'Estimated Sales Revenue',
-    },
-  ];
+  const [industries, setIndustries] = useState<any[]>([]);
+  const fetchCompanies = async (currIndustryId: number) => {
+    let response = await getCompanies();
+    console.log('running retirievallllll', response);
+    response = response.filter(
+      (comp: any) => comp.industryId == currIndustryId,
+    );
+    console.log('filtered is ', response);
+    return response;
+    // console.log('retrieved companies are ', response);
+  };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const updatedIndustries = [];
+      let response = await getIndustries();
+
+      // try{
+
+      // }catch(e:any){
+      //   console.log("errror is ",e)
+      // }
+      // response = response.map(async (currIndustry: any) => {
+      //   let companies = await fetchCompanies(currIndustry.id);
+
+      //   return { ...currIndustry, companies: companies };
+      // });
+      for (let k = 0; k < response.length; k++) {
+        let companies = await fetchCompanies(response[k].id);
+        response[k].companies = companies;
+      }
+      console.log('setted industreis ', response);
+
+      setIndustries(response);
+    };
+    fetchData();
+  }, []);
+
+  // useEffect(() => {
+  //   console.log('CALLED WITH INDUSTRIES ', industries);
+  //   const fetchCompanies = async () => {
+  //     console.log('running retirievallllll');
+  //     let response = await getCompanies();
+  //     return response;
+  //     // console.log('retrieved companies are ', response);
+
+  //     // try {
+  //     //   response = response.filter(
+  //     //     (comp: any) => comp.industryId == industries[industry].id,
+  //     //   );
+  //     // } catch (e: any) {
+  //     //   console.log('error is ', e);
+  //     // }
+
+  //     // console.log(' AFTER retrieved companies are ', response);
+
+  //     // industries[industry].companies = response;
+  //     // console.log('new industries isss ', industries);
+  //     // setIndustries(industries);
+  //   };
+  //   if (industries.length != 0) {
+  //     fetchCompanies();
+  //   }
+  // }, [industries, industry]);
+
+  // const industries = [
+  //   {
+  //     name: 'Ride Hailing',
+  //     unitData: RideHailingTripDataSets,
+  //     costData: RideHailingCostDataSets,
+  //     unitTitle: 'Number of Trips',
+  //     costTitle: 'Average Cost per Trip',
+  //     salesTitle: 'Estimated Sales Revenue',
+  //   },
+  //   {
+  //     name: 'Beverage Service',
+  //     unitData: BeverageServiceLocationDataSets,
+  //     costData: BeverageServiceCostDataSets,
+  //     unitTitle: 'Number of Locations',
+  //     costTitle: 'Average Revenue per Location',
+  //     salesTitle: 'Estimated Sales Revenue',
+  //   },
+  // ];
+  console.log('industries is ', industries);
   return (
     <div>
       <Layout>
@@ -50,14 +109,16 @@ const Index = () => {
                     industry === index ? 'bg-accent' : 'bg-[#bffff8]'
                   } `}
                 >
-                  {indus.name}
+                  {industryTypes[indus.type as keyof typeof industryTypes]}
                 </button>
               </li>
             ))}
           </ul>
         </div>
+        {industries.length && (
+          <Graphs industryData={industries[industry]}></Graphs>
+        )}
 
-        <Graphs industryData={industries[industry]}></Graphs>
         <CompanyProfile companyProfiles={industries[industry]}></CompanyProfile>
       </Layout>
     </div>

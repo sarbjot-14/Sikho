@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import {
   Chart as ChartJS,
@@ -18,6 +18,7 @@ import { useState } from 'react';
 import { namedColor, transparentize } from '../../utils/GraphUtils';
 import { NumberFormat } from '../../utils';
 import { Button } from '@mui/material';
+import { getCompanies, getDatapoints } from '../../services/sikhoAPI';
 
 ChartJS.register(
   CategoryScale,
@@ -36,8 +37,56 @@ enum GraphMode {
 }
 
 const Graphs = ({ industryData }: any) => {
+  console.log('passed in in industry ', industryData);
   const [currentGraphMode, setCurrentGraphMode] = useState(GraphMode.UNITS);
+  const [industryGraph, setIndustryGraph] = useState<any>({});
 
+  const filterDataPoints = (companyId: number, points: any) => {
+    let temp = points
+      .filter((point: any) => companyId == point.companyId)
+      .sort((a: any, b: any) => a.year - b.year);
+
+    return temp;
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const dataPoints = await getDatapoints();
+      let response = await getCompanies();
+      response = response.filter(
+        (comp: any) => comp.industryId == industryData.id,
+      );
+
+      industryData.unitData = response.map((company: any, index: number) => {
+        const dsColor = namedColor(index);
+        const filteredandmapped = filterDataPoints(company.id, dataPoints);
+
+        //console.log('filtered and mapped is ', filteredandmapped);
+        return {
+          label: company.name,
+          data: filterDataPoints(company.id, dataPoints).map((point: any) => {
+            return point.units;
+          }),
+          backgroundColor: transparentize(dsColor, 0.5),
+          borderColor: dsColor,
+        };
+      });
+      industryData.costData = response.map((company: any, index: any) => {
+        const dsColor = namedColor(index);
+
+        return {
+          label: company.name,
+          data: filterDataPoints(company.id, dataPoints).map(
+            (point: any) => point.cost,
+          ),
+          backgroundColor: transparentize(dsColor, 0.5),
+          borderColor: dsColor,
+        };
+      });
+      setIndustryGraph(industryData);
+      // console.log('updated industry data', industryData);
+    };
+    fetchData();
+  }, [industryData]);
   const chartRef = useRef();
   const options = {
     responsive: true,
@@ -70,10 +119,10 @@ const Graphs = ({ industryData }: any) => {
         display: true,
         text:
           currentGraphMode === GraphMode.UNITS
-            ? industryData.unitTitle
+            ? industryData?.unitTitle
             : currentGraphMode === GraphMode.COST
-            ? industryData.costTitle
-            : industryData.salesTitle,
+            ? industryData?.costTitle
+            : industryData?.salesTitle,
       },
 
       tooltip: {
@@ -170,21 +219,22 @@ const Graphs = ({ industryData }: any) => {
 
   const getGraphData = () => {
     if (currentGraphMode === GraphMode.UNITS) {
+      // console.log('industryGraph is now ', industryGraph);
       return {
         labels: Labels,
-        datasets: industryData.unitData,
+        datasets: industryGraph?.unitData,
       };
     } else if (currentGraphMode === GraphMode.COST) {
       return {
         labels: Labels,
-        datasets: industryData.costData,
+        datasets: industryData?.costData,
       };
     } else if (currentGraphMode === GraphMode.REVENUE_SHARE) {
       const revenueShareDataSets: any = [];
       // let revenueShareDataSet: any = [];
-      for (let k = 0; k < industryData.unitData.length; k++) {
-        let unitsArray = industryData.unitData[k].data;
-        let costsArray = industryData.costData[k].data;
+      for (let k = 0; k < industryData?.unitData.length; k++) {
+        let unitsArray = industryData?.unitData[k].data;
+        let costsArray = industryData?.costData[k].data;
 
         let revenueArray: any = unitsArray.map(function (
           unitNumber: any,
@@ -199,16 +249,16 @@ const Graphs = ({ industryData }: any) => {
 
         const dsColor = namedColor(k);
         revenueShareDataSets.push({
-          label: industryData.unitData[k].label,
+          label: industryData?.unitData[k].label,
           data: revenueArray,
           backgroundColor: transparentize(dsColor, 0.5),
           borderColor: dsColor,
         });
       }
-      console.log({
-        labels: Labels,
-        datasets: revenueShareDataSets,
-      });
+      // console.log({
+      //   labels: Labels,
+      //   datasets: revenueShareDataSets,
+      // });
       return {
         labels: Labels,
         datasets: revenueShareDataSets,
@@ -219,11 +269,19 @@ const Graphs = ({ industryData }: any) => {
     console.log(getElementAtEvent(chartRef.current!, event));
   };
   const data = getGraphData();
+  // console.log('graphed data is ', data);
 
   return (
     <div className="lg:px-10 lg:py-5 my-5 flex flex-col items-center bg-gray-100 rounded-xl">
       <div className="relative h-[370px] lg:min-h-[500px] w-full">
-        <Line ref={chartRef} options={options} data={data!} onClick={onClick} />
+        {industryGraph?.unitData && (
+          <Line
+            ref={chartRef}
+            options={options}
+            data={data!}
+            onClick={onClick}
+          />
+        )}
       </div>
 
       <ul className="flex flex-col lg:flex-row text-sm font-medium text-center text-gray-500 dark:text-gray-400">
@@ -239,7 +297,7 @@ const Graphs = ({ industryData }: any) => {
             }`}
             aria-current="page"
           >
-            {industryData.unitTitle}
+            {industryData?.unit_title}
           </button>
         </li>
         <li className="mr-2">
@@ -253,7 +311,7 @@ const Graphs = ({ industryData }: any) => {
                 : 'rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white'
             }`}
           >
-            {industryData.costTitle}
+            {industryData?.cost_title}
           </button>
         </li>
         <li className="mr-2">
@@ -267,7 +325,7 @@ const Graphs = ({ industryData }: any) => {
                 : 'rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white'
             }`}
           >
-            {industryData.salesTitle}
+            {industryData?.revenue_title}
           </button>
         </li>
       </ul>
