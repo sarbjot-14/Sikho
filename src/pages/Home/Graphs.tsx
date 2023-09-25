@@ -19,7 +19,6 @@ import { namedColor, transparentize } from '../../utils/GraphUtils';
 import { NumberFormat } from '../../utils';
 import { Button } from '@mui/material';
 import { getCompanies, getDatapoints } from '../../services/sikhoAPI';
-
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -42,9 +41,22 @@ const Graphs = ({ industryData }: any) => {
   const [industryGraph, setIndustryGraph] = useState<any>({});
 
   const filterDataPoints = (companyId: number, points: any) => {
-    let temp = points
-      .filter((point: any) => companyId == point.companyId)
-      .sort((a: any, b: any) => a.year - b.year);
+    let temp = points.filter((point: any) => companyId == point.companyId);
+
+    // temp = temp.map((t: any) => {
+    //   if (!Labels.includes(t.year)) {
+    //     temp.add({ year: t.year });
+    //   }
+    // });
+
+    Labels.map((l: any) => {
+      if (!temp.map((obj: any) => obj.year).includes(l)) {
+        temp.push({ year: l });
+      }
+    });
+
+    temp = temp.sort((a: any, b: any) => a.year - b.year);
+    // console.log('sorted data ', temp);
 
     return temp;
   };
@@ -64,7 +76,7 @@ const Graphs = ({ industryData }: any) => {
         return {
           label: company.name,
           data: filterDataPoints(company.id, dataPoints).map((point: any) => {
-            return point.units;
+            return point?.units;
           }),
           backgroundColor: transparentize(dsColor, 0.5),
           borderColor: dsColor,
@@ -76,7 +88,7 @@ const Graphs = ({ industryData }: any) => {
         return {
           label: company.name,
           data: filterDataPoints(company.id, dataPoints).map(
-            (point: any) => point.cost,
+            (point: any) => point?.cost,
           ),
           backgroundColor: transparentize(dsColor, 0.5),
           borderColor: dsColor,
