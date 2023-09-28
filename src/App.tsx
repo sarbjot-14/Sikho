@@ -8,6 +8,9 @@ import {
   getContrastRatio,
   ThemeProvider,
 } from '@mui/material/styles';
+import Home from './pages/Home/Index';
+import Employment from './pages/Employment/Index';
+
 const primaryBase = '#056280';
 const primaryMain = alpha(primaryBase, 0.7);
 
@@ -41,7 +44,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Routes>
-        <Route path="/" element={<Index></Index>}></Route>
+        <Route path="/" element={<Home></Home>}></Route>
+        <Route path="/employment" element={<Employment></Employment>}></Route>
       </Routes>
     </ThemeProvider>
   );
