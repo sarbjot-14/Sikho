@@ -10,6 +10,14 @@ export const getIndustries = async () => {
   return response.data;
 };
 
+// Occupations
+export const getOccupations = async (industryId?: string) => {
+  const response = await client.get('occupation', {
+    params: { industryId },
+  });
+  return response.data;
+};
+
 // Company
 
 export const getCompanies = async () => {

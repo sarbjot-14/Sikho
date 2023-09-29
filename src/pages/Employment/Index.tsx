@@ -54,7 +54,8 @@ const Employment = () => {
         </ul>
       </div>
       <div>
-        <ProjectionSlides></ProjectionSlides>
+        <h1>Jobs At Risk - Employment Projections 2022-2023</h1>
+        <ProjectionSlides industry={industry}></ProjectionSlides>
       </div>
     </Layout>
   );
