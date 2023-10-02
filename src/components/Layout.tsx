@@ -4,7 +4,7 @@ import Footer from './Footer';
 
 const Layout = ({ children }: any) => {
   return (
-    <div>
+    <div className="mt-10">
       <NavBar></NavBar>
       <div className="lg:px-[10%] ">{children}</div>
 

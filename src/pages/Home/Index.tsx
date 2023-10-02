@@ -40,14 +40,14 @@ const Home = () => {
         <p className="p-5 lg:py-10">
           View the progress of automation across different industries.
         </p>
-        <div className="max-w-md lg:max-w-lg mx-auto ">
+        <div className="max-w-md lg:max-w-lg mx-auto py-5 ">
           <ul className=" flex justify-center  lg:flex-row text-md gap-2  lg:text-xl font-medium text-center  lg:overflow-x-auto font-raleway ">
             {industries.map((indus: any, index: number) => (
               <li>
                 <button
                   onClick={() => setIndustry(index)}
                   type="button"
-                  className={`inline-flex items-center px-2 lg:px-5 py-2.5 lg:py-1 text-center whitespace-nowrap text-primary  rounded-lg hover:bg-accent ${
+                  className={`text-xl inline-flex items-center px-2 lg:px-5 py-2.5 lg:py-1 text-center whitespace-nowrap text-primary  rounded-lg hover:bg-accent ${
                     industry === index ? 'bg-accent' : 'bg-[#bffff8]'
                   } `}
                 >

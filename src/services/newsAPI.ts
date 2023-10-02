@@ -6,7 +6,7 @@ export const getArticles = async (searchTitle: string) => {
   var params = {
     api_token: 'ksduvoWB2NmbrrI6iJMXMj2BnavfqEoHJaNC7cIb',
     categories: 'business',
-    search: `"${searchTitle}" + (robot | expanding | automation) `,
+    search: `"${searchTitle}" + (robot | expanding) `,
     language: 'en',
     limit: '50',
   };

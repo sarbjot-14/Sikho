@@ -31,3 +31,15 @@ export const getDatapoints = async () => {
   const response = await client.get('datapoint');
   return response.data;
 };
+
+// JobGrowthPolls
+
+export const postJobGrowthPoll = async (poll: any) => {
+  const response = await client.post('jobgrowthpoll', poll);
+  return response.data;
+};
+
+export const getJobGrowthPoll = async () => {
+  const response = await client.get('jobgrowthpoll');
+  return response.data;
+};

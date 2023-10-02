@@ -43,7 +43,7 @@ const Employment = () => {
               <button
                 onClick={() => setIndustry(index)}
                 type="button"
-                className={`inline-flex items-center px-2 lg:px-5 py-2.5 lg:py-1 text-center whitespace-nowrap text-primary  rounded-lg hover:bg-accent ${
+                className={`text-xl inline-flex items-center px-2 lg:px-5 py-2.5 lg:py-1 text-center whitespace-nowrap text-primary  rounded-lg hover:bg-accent ${
                   industry === index ? 'bg-accent' : 'bg-[#bffff8]'
                 } `}
               >
@@ -53,9 +53,19 @@ const Employment = () => {
           ))}
         </ul>
       </div>
-      <div>
-        <h1>Jobs At Risk - Employment Projections 2022-2023</h1>
-        <ProjectionSlides industry={industry}></ProjectionSlides>
+      <div className="flex flex-col gap-28 my-10">
+        <div>
+          <h1 className="text-lg md:text-2xl text-center p-5">
+            Occupations at risk - Projections 2022-2033
+          </h1>
+          <ProjectionSlides industry={industry} atRisk={1}></ProjectionSlides>
+        </div>
+        <div className="">
+          <h1 className="text-lg md:text-2xl text-center p-5">
+            Promising Occupations - Projections 2022-2033
+          </h1>
+          <ProjectionSlides industry={industry} atRisk={0}></ProjectionSlides>
+        </div>
       </div>
     </Layout>
   );
