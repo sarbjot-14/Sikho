@@ -64,6 +64,7 @@ const Employment = () => {
           <h1 className="text-lg md:text-2xl text-center p-5">
             Promising Occupations - Projections 2022-2033
           </h1>
+
           <ProjectionSlides industry={industry} atRisk={0}></ProjectionSlides>
         </div>
       </div>

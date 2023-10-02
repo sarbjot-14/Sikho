@@ -58,10 +58,14 @@ const Home = () => {
           </ul>
         </div>
         {industries.length && (
-          <Graphs industryData={industries[industry]}></Graphs>
-        )}
+          <>
+            <Graphs industryData={industries[industry]}></Graphs>
 
-        <CompanyProfile companyProfiles={industries[industry]}></CompanyProfile>
+            <CompanyProfile
+              companyProfiles={industries[industry]}
+            ></CompanyProfile>
+          </>
+        )}
       </Layout>
     </div>
   );

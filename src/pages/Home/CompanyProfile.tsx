@@ -3,7 +3,6 @@ import { getArticles, mockData } from '../../services/newsAPI';
 import { getCompanies, getIndustries } from '../../services/sikhoAPI';
 
 const CompanyProfile = ({ companyProfiles }: any) => {
-  console.log('company profiles arerree ', companyProfiles);
   const [currentProfile, setCurrentProfile] = useState(0);
   const [articles, setArticles] = useState<any>([]);
   const makeCall = async () => {
