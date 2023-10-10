@@ -24,10 +24,9 @@ const ProjectionSlides = ({ industry, atRisk }: any) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const updatedIndustries = [];
       let response = await getOccupations((industry + 1).toString());
 
-      setOccupations(response.filter((occu: any) => occu.at_risk == atRisk));
+      setOccupations(response.filter((occu: any) => occu.at_risk === atRisk));
 
       const address = await getIPAddress();
       setIp_address(address);
@@ -38,7 +37,7 @@ const ProjectionSlides = ({ industry, atRisk }: any) => {
     };
     fetchData();
     fetchPolls();
-  }, [industry]);
+  }, [industry, atRisk]);
 
   const changePoll = (sign: string) => {
     if (sign === 'increment') {
@@ -66,10 +65,10 @@ const ProjectionSlides = ({ industry, atRisk }: any) => {
   const calculatePollPercentage = (occupationId: number) => {
     return (
       polls
-        .filter((filterPoll: any) => filterPoll.occupation_id == occupationId)
+        .filter((filterPoll: any) => filterPoll.occupation_id === occupationId)
         .reduce((total: number, poll: any) => total + poll.percent_change, 0) /
       polls.filter(
-        (filterPoll: any) => filterPoll.occupation_id == occupationId,
+        (filterPoll: any) => filterPoll.occupation_id === occupationId,
       ).length
     );
   };
@@ -97,7 +96,7 @@ const ProjectionSlides = ({ industry, atRisk }: any) => {
                     {polls
                       .filter(
                         (filterPoll: any) =>
-                          filterPoll.occupation_id == occupation.id,
+                          filterPoll.occupation_id === occupation.id,
                       )
                       .map((poll: any) => poll.ip_address)
                       .includes(ip_address) ? (
