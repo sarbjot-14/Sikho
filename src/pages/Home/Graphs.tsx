@@ -35,7 +35,6 @@ enum GraphMode {
 }
 
 const Graphs = ({ industryData }: any) => {
-  console.log('passed in in industry ', industryData);
   const [currentGraphMode, setCurrentGraphMode] = useState(GraphMode.UNITS);
   const [industryGraph, setIndustryGraph] = useState<any>({});
 

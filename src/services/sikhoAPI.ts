@@ -7,6 +7,7 @@ const client = axios.create({
 // Industry
 export const getIndustries = async () => {
   const response = await client.get('industry');
+  console.log('here are the industriessss ', response);
   return response.data;
 };
 
