@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export const NavBar = () => {
   return (
-    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap shadow-sm lg:px-[10%] z-50 w-full bg-white text-sm py-4 dark:bg-gray-800">
+    <header className="flex flex-wrap sm:justify-start sm:flex-nowrap shadow-sm lg:px-[10%] z-50 w-full bg-white text-sm py-4 ">
       <nav
         className="max-w-[85rem] w-full mx-auto px-4  sm:flex sm:items-center sm:justify-between"
         aria-label="Global"
@@ -22,24 +22,6 @@ export const NavBar = () => {
           <Link to="/employment">
             <h3 className="text-primary font-semibold text-xl">Employment</h3>
           </Link>
-          {/* <a
-            className="font-medium text-gray-600 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500"
-            href="#"
-          >
-            Account
-          </a>
-          <a
-            className="font-medium text-gray-600 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500"
-            href="#"
-          >
-            Work
-          </a>
-          <a
-            className="font-medium text-gray-600 hover:text-gray-400 dark:text-gray-400 dark:hover:text-gray-500"
-            href="#"
-          >
-            Blog
-          </a> */}
         </div>
       </nav>
     </header>
