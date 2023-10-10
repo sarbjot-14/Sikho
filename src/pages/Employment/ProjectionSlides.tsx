@@ -25,6 +25,7 @@ const ProjectionSlides = ({ industry, atRisk }: any) => {
   useEffect(() => {
     const fetchData = async () => {
       let response = await getOccupations((industry + 1).toString());
+      console.log('occupations ', response);
 
       setOccupations(response.filter((occu: any) => occu.at_risk === atRisk));
 
@@ -47,15 +48,12 @@ const ProjectionSlides = ({ industry, atRisk }: any) => {
     }
   };
   const submitPoll = async (occupationId: number) => {
-    console.log('submitting ', pollValue);
     const iPAddress = await getIPAddress();
-    const response = await postJobGrowthPoll({
+    await postJobGrowthPoll({
       percent_change: pollValue,
       ip_address: iPAddress,
       occupation_id: occupationId,
     });
-
-    console.log('response', response);
 
     const pollResponse = await getJobGrowthPoll();
 

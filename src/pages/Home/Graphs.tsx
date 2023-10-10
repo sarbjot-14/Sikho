@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import Chart from 'chart.js/auto';
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,7 +9,6 @@ import {
   Title,
   Tooltip,
   Legend,
-  ScaleOptionsByType,
 } from 'chart.js';
 import { Line, getElementAtEvent } from 'react-chartjs-2';
 import { Labels } from '../../data/ride_hailing';
@@ -17,7 +16,7 @@ import { Labels } from '../../data/ride_hailing';
 import { useState } from 'react';
 import { namedColor, transparentize } from '../../utils/GraphUtils';
 import { NumberFormat } from '../../utils';
-import { Button } from '@mui/material';
+
 import { getCompanies, getDatapoints } from '../../services/sikhoAPI';
 ChartJS.register(
   CategoryScale,
@@ -41,18 +40,13 @@ const Graphs = ({ industryData }: any) => {
   const [industryGraph, setIndustryGraph] = useState<any>({});
 
   const filterDataPoints = (companyId: number, points: any) => {
-    let temp = points.filter((point: any) => companyId == point.companyId);
-
-    // temp = temp.map((t: any) => {
-    //   if (!Labels.includes(t.year)) {
-    //     temp.add({ year: t.year });
-    //   }
-    // });
+    let temp = points.filter((point: any) => companyId === point.companyId);
 
     Labels.map((l: any) => {
       if (!temp.map((obj: any) => obj.year).includes(l)) {
         temp.push({ year: l });
       }
+      return null;
     });
 
     temp = temp.sort((a: any, b: any) => a.year - b.year);
@@ -65,14 +59,11 @@ const Graphs = ({ industryData }: any) => {
       const dataPoints = await getDatapoints();
       let response = await getCompanies();
       response = response.filter(
-        (comp: any) => comp.industryId == industryData.id,
+        (comp: any) => comp.industryId === industryData.id,
       );
 
       industryData.unitData = response.map((company: any, index: number) => {
         const dsColor = namedColor(index);
-        const filteredandmapped = filterDataPoints(company.id, dataPoints);
-
-        //console.log('filtered and mapped is ', filteredandmapped);
         return {
           label: company.name,
           data: filterDataPoints(company.id, dataPoints).map((point: any) => {
