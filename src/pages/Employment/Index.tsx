@@ -53,7 +53,7 @@ const Employment = () => {
           ))}
         </ul>
       </div>
-      <div className="flex flex-col gap-28 my-10">
+      <div className="flex flex-col gap-10 md:gap-20 my-10">
         <div>
           <h1 className="text-lg md:text-2xl text-center p-5">
             Occupations at risk - Projections 2022-2033

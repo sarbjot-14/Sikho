@@ -59,13 +59,7 @@ const ProjectionSlides = ({ industry, atRisk }: any) => {
     console.log('response', response);
 
     const pollResponse = await getJobGrowthPoll();
-    // console.log(
-    //   'poll response is ',
-    //   pollResponse.reduce(
-    //     (total: number, poll: any) => total + poll.percent_change,
-    //     0,
-    //   ),
-    // );
+
     setPolls(pollResponse);
     setPollValue(0);
   };
@@ -81,13 +75,19 @@ const ProjectionSlides = ({ industry, atRisk }: any) => {
   };
   return (
     <div className="w-full md:w-6/7 max-w-[700px] mx-auto h-[400px] ">
-      <Swiper navigation={true} modules={[Navigation]} className="mySwiper ">
+      <Swiper
+        onActiveIndexChange={() => setPollValue(0)}
+        navigation={true}
+        modules={[Navigation]}
+        className="mySwiper "
+      >
         {occupations.map((occupation: any) => {
           return (
             <SwiperSlide className="h-full">
               <div className="flex flex-col bg-slate-100 rounded-xl">
                 <h2 className="bg-primary text-white rounded-t-xl text-center p-2">
-                  {occupation.title}
+                  {occupation.title.split('*')[0]},{' '}
+                  {occupation.title.split('*')[1]}
                 </h2>
                 <div className="flex flex-col md:flex-row justify-around p-6">
                   <div className="bg-white flex flex-col gap-3 items-center p-4 m-2 md:p-8 md:m-5 rounded-xl">
@@ -132,8 +132,8 @@ const ProjectionSlides = ({ industry, atRisk }: any) => {
                         <p className="font-bold text-slate-400 text-center w-[70%] text-sm md:text-md">
                           {`${
                             calculatePollPercentage(occupation.id) <= 0
-                              ? 'Shrinkage of'
-                              : 'Growth of'
+                              ? 'shrinkage of'
+                              : 'growth of'
                           }
                         ${Math.abs(
                           Math.round(
@@ -160,13 +160,15 @@ const ProjectionSlides = ({ industry, atRisk }: any) => {
                             <div className="flex">
                               <input
                                 type="number"
-                                className="outline-none focus:outline-none text-right  font-semibold  hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700  outline-none text-xl w-14"
+                                className="outline-none focus:outline-none text-right  font-semibold  hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700  outline-none font-raleway text-2xl md:text-3xl font-bold mr-2 w-14"
                                 name="custom-input-number"
                                 value={pollValue}
                               ></input>
-                              <h2 className="my-auto m-1 text-sm">%</h2>
+                              <h2 className="my-auto m-1 font-raleway text-2xl md:text-3xl font-bold mr-2">
+                                %
+                              </h2>
                             </div>
-                            <h2 className="my-auto m-1 text-sm ">
+                            <h2 className="my-auto ml-3 text-sm font-bold text-slate-400  ">
                               change by 2033
                             </h2>
                           </div>
@@ -224,8 +226,8 @@ const ProjectionSlides = ({ industry, atRisk }: any) => {
                       <p className="font-bold text-slate-400 text-center w-[70%] text-sm md:text-md">
                         {`${
                           occupation.decade_change_percentage <= 0
-                            ? 'Shrinkage of'
-                            : 'Growth of'
+                            ? 'shrinkage of'
+                            : 'growth of'
                         }
                         ${Math.abs(
                           Math.round(

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const client = axios.create({
-  baseURL: 'https://localhost:7250/',
+  baseURL: process.env.REACT_APP_Sikho_API,
 });
 
 // Industry
