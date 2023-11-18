@@ -2,7 +2,7 @@
 
 Web App to show progress of automation across different industries.
 
-Live App: https://sikho-fullstack.vercel.app/
+
 Demo: https://youtu.be/Cg2k0HQJb1g?si=e3TULA7cohPr9lIG
 
 ## Backend:
